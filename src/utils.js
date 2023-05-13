@@ -19,8 +19,8 @@ async function check_compilation_errors (module) {
     for (const msg of info.messages) {
       console.error(`${module.label} ${msg.message}@${msg.lineNum}`)
     }
+    Panic.About(`Shader compilation failed`);
   }
-  Panic.About(`Shader compilation failed`);
 }
 
 class Panic extends Error {
