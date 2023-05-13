@@ -86,3 +86,5 @@ function main() {
     gpu_context.device.queue.submit([command_buffer]);
   });
 }
+
+main();
