@@ -29,9 +29,9 @@
 
 	},
 	"include": [
-		"*.js",
-		"*.html"
-, "src/utils.js", "src/setup.js", "src/hello_triangle.js"	],
+		"**/*.js",
+		"**/*.html"
+	],
 	"exclude": [
 		"**/*.test.ts"
 	]
