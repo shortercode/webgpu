@@ -78,7 +78,7 @@ function setup_context(canvas, context_callback) {
     try {
       context_callback(ctx)
     } catch (err) {
-      
+      console.error(err);
     }
   };
 
