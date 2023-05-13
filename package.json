@@ -1,0 +1,12 @@
+{
+  "name": "webgpu",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {},
+  "author": "shortercode",
+  "license": "MIT",
+  "dependencies": {
+    "@webgpu/types": "^0.1.32"
+  }
+}

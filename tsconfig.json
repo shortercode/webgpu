@@ -1,0 +1,38 @@
+{
+	"compilerOptions": {
+		"declaration": true,
+		"declarationMap": true,
+		"sourceMap": true,
+		"outDir": "dist",
+		"lib": ["es2020", "DOM"],
+		"removeComments": true,
+		"target": "es2018",
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitOverride": true,
+		"noImplicitThis": true,
+		"noPropertyAccessFromIndexSignature": true,
+		"noUncheckedIndexedAccess": true,
+		"allowUnreachableCode": false,
+		"allowUnusedLabels": false,
+		"exactOptionalPropertyTypes": true,
+		"forceConsistentCasingInFileNames": true,
+		"verbatimModuleSyntax": true,
+		"esModuleInterop": true,
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+    "checkJs": true,
+		"typeRoots": [ "./node_modules/@webgpu/types", "./node_modules/@types"]
+
+	},
+	"include": [
+		"*.js",
+		"*.html"
+, "src/utils.js", "src/setup.js", "src/hello_triangle.js"	],
+	"exclude": [
+		"**/*.test.ts"
+	]
+}
