@@ -1,3 +1,5 @@
+const ENTITY_COUNT = 100;
+
 const SHADER_CODE = `
 struct Intermediate {
   @builtin(position) position: vec4f,
@@ -48,9 +50,9 @@ function main() {
   let vertex_buffer;
 
   /**
-   * @type GPUBindGroup
+   * @type GPUBindGroup[]
    */
-  let bind_group;
+  const entities = [];
 
   setup_context(canvas, async (ctx) => {
     // create shader module
@@ -93,26 +95,38 @@ function main() {
 
     ctx.device.queue.writeBuffer(vertex_buffer, 0, vertex_data);
 
-    const uniform_buffer = ctx.device.createBuffer({
-      size: 4 * 4,
-      usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
-    });
+    for (let i = 0; i < ENTITY_COUNT; i += 1) {
+      const uniform_buffer = ctx.device.createBuffer({
+        size: 4 * 4,
+        usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
+      });
 
-    // create a typedarray to hold the values for the uniforms in JavaScript
-    const uniform_values = new Float32Array([
-      1.6, 1,
-      0.2, 0.2,
-    ]);
+      /**
+       * 
+       * @param {number} min 
+       * @param {number} max 
+       * @returns number
+       */
+      const random = (min, max) => min + Math.random() * (max - min);
 
-    bind_group = ctx.device.createBindGroup({
-      layout: pipeline.getBindGroupLayout(0),
-      entries: [
-        { binding: 0, resource: { buffer: uniform_buffer }},
-      ],
-    });
+      const bind_group = ctx.device.createBindGroup({
+        layout: pipeline.getBindGroupLayout(0),
+        entries: [
+          { binding: 0, resource: { buffer: uniform_buffer }},
+        ],
+      });
 
-    ctx.device.queue.writeBuffer(uniform_buffer, 0, uniform_values);
+      // create a typedarray to hold the values for the uniforms in JavaScript
+      const uniform_values = new Float32Array([
+        0.2, 0.2,
+        random(-0.9, 0.9), random(-0.9, 0.9),
+      ]);
 
+      ctx.device.queue.writeBuffer(uniform_buffer, 0, uniform_values);
+
+      entities.push(bind_group);
+    }
+    
     gpu_context = ctx;
   });
 
@@ -136,9 +150,12 @@ function main() {
     });
     pass.setPipeline(pipeline);
     pass.setVertexBuffer(0, vertex_buffer);
-    pass.setBindGroup(0, bind_group);
 
-    pass.draw(vertex_buffer.size / ( 2 * 4 ));
+    for (const bind_group of entities) {
+      pass.setBindGroup(0, bind_group);
+      pass.draw(vertex_buffer.size / ( 2 * 4 ));
+    }
+
     pass.end();
 
     const command_buffer = encoder.finish();
